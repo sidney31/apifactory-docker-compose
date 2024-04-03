@@ -2,24 +2,28 @@ version: '3'
 
 services:
   backend:
+    image: python:3.8-slim
     volumes:
       - static:/static
     env_file:
       - .env
     build:
       context: ./backend
+      dockerfile: Dockerfile
     ports:
       - 8000:8000
-    image: python:3.8-slim
   frontend:
+    image: node:alpine
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     volumes:
       - frontend:/app/dist
-    image: node:alpine
   nginx:
+    image: nginx:1.19.0-alpine
     build:
       context: ./nginx
+      dockerfile: Dockerfile
     volumes:
       - static:/static
       - frontend:/var/www/frontend
@@ -28,7 +32,6 @@ services:
     depends_on:
       - backend
       - frontend
-    image: nginx:1.19.0-alpine
 
 volumes:
   static:
