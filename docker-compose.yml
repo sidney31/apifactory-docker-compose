@@ -10,11 +10,13 @@ services:
       context: ./backend
     ports:
       - 8000:8000
+    image: python:3.8-slim
   frontend:
     build:
       context: ./frontend
     volumes:
       - frontend:/app/dist
+    image: node:alpine
   nginx:
     build:
       context: ./nginx
@@ -26,6 +28,7 @@ services:
     depends_on:
       - backend
       - frontend
+    image: nginx:1.19.0-alpine
 
 volumes:
   static:
